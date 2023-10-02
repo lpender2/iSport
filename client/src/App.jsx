@@ -6,15 +6,14 @@ import Register from "./views/Register";
 import axios from "axios";
 import Cookies from "js-cookie";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Display from "./components/Display";
 import CreateEventPage from "./views/CreateEvent";
+import Layout from "./components/Layout";
 
 
 function App() {
   
   const [user, setUser] = useState({});
 
-  
   useEffect(() => {
     axios.get("http://localhost:8000/api/user")  
     .catch((err) => console.log(err));
@@ -28,14 +27,16 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Routes>
-          <Route path="/create-event" element={<CreateEventPage user={user} />} />  
-          <Route path="/homepage" element={<Homepage setUser={setUser} />} />
-          <Route path="/register" element={<Register setUser={setUser} />} />
-          <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path="/" element={<Login setUser={setUser} />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      <Layout user={user} setUser={setUser}>
+          <Routes>
+            <Route path="/create-event" element={<CreateEventPage user={user} />} />  
+            <Route path="/dashboard" element={<Homepage setUser={setUser} />} />
+            <Route path="/register" element={<Register setUser={setUser} />} />
+            <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path="/" element={<Login setUser={setUser} />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>  
       </div>
     </Router>
   );

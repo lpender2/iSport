@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const CreateEventPage = (props) => {
     const { user } = props;
@@ -12,32 +13,45 @@ const CreateEventPage = (props) => {
         time: '',
         location: '',
         userId: user?._id || '',
+        
     });
-    
+    // Check to see if user is logged in
+    console.log('User Prop:', user);
+
     const [error, setError] = useState(''); // State to handle error messages
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    
+    useEffect(() => {
+        const userToken = Cookies.get('userToken');
+        if (!userToken) {
+            navigate('/login');
+        }
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
-        // Form Validation
+        // Form validation before sending to backend
         if (!formData.title || !formData.date || !formData.time || !formData.location) {
         setError('Please fill in all fields');
         return;
         }
 
         try {
-        // Making a hypothetical API call to create an event
+        // Send POST request to backend to create event
+        console.log('Sending formData:', formData);
         await axios.post('http://localhost:8000/api/events', formData);
 
-        // Handle successful event creation, e.g., redirecting to homepage or clearing the form
+        // Redirect to homepage
         console.log('Event created:', formData);
-        navigate('/homepage');
+        navigate('/dashboard');
         } catch (error) {
+        console.error(error.response?.data || error);
         setError(error.response?.data?.message || error.message);
         }
     };

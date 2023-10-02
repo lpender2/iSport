@@ -19,7 +19,7 @@ const Login = (props) => {
             setUser(res.data);
             Cookies.set("user", JSON.stringify(res.data), { expires: 30 });
             Cookies.set("userToken", JSON.stringify(res.data.token), { expires: 30 }); 
-            navigate("/homepage"); 
+            navigate("/dashboard"); 
         })
         .catch((err) => {
             console.error("Login Error:", err.response ? err.response.data : err);
