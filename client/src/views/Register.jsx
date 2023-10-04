@@ -103,6 +103,7 @@ const Register = (props) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete='true'
             />
             </div>
             <div className="form-group">
@@ -113,6 +114,7 @@ const Register = (props) => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                autoComplete='true'
             />
             </div>
             <p className='text-danger'>

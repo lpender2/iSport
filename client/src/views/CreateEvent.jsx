@@ -3,6 +3,7 @@ import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { StandaloneSearchBox } from '@react-google-maps/api';
 
 const CreateEventPage = (props) => {
     const { user } = props;
@@ -13,13 +14,46 @@ const CreateEventPage = (props) => {
         time: '',
         location: '',
         userId: user?._id || '',
-        
+        coordinates: {
+            latitude: null,
+            longitude: null
+        }
     });
-    // Check to see if user is logged in
-    console.log('User Prop:', user);
 
+    const [searchBox, setSearchBox] = useState(null);
+    const [searchInput, setSearchInput] = useState('');
+    const onPlacesChanged = () => {
+        if (searchBox) {
+            const places = searchBox.getPlaces();
+            if (places.length === 0) {
+                return;
+            }
+            const selectedLocation = places[0].name;
+            const lat = places[0].geometry.location.lat();
+            const lng = places[0].geometry.location.lng();
+    
+            // Update the formData with the selected place's name, latitude, and longitude
+            setFormData(prevState => ({
+            ...prevState,
+            location: selectedLocation,
+            coordinates: {
+                ...prevState.coordinates,
+                latitude: lat,
+                longitude: lng
+            }
+        }));
+            // Update the searchInput to display the selected location
+            setSearchInput(selectedLocation);
+        }
+    };
+    
+    
+    const handleSearchInputChange = (e) => {
+        setSearchInput(e.target.value);
+        
+    };
     const [error, setError] = useState(''); // State to handle error messages
-
+    
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -30,7 +64,7 @@ const CreateEventPage = (props) => {
         if (!userToken) {
             navigate('/login');
         }
-    }, []);
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -74,11 +108,29 @@ const CreateEventPage = (props) => {
             <Form.Control type="time" name="time" value={formData.time} onChange={handleChange} />
             </Form.Group>
             <Form.Group controlId="location">
-            <Form.Label>Location</Form.Label>
-            <Form.Control type="text" name="location" value={formData.location} onChange={handleChange} />
+                <Form.Label>Location</Form.Label>
+                <StandaloneSearchBox
+                    onLoad={ref => setSearchBox(ref)}
+                    onPlacesChanged={onPlacesChanged}
+                >
+                    <Form.Control 
+                        type="text" 
+                        name="location" 
+                        value={searchInput} 
+                        onChange={handleSearchInputChange} 
+                    />
+                </StandaloneSearchBox>
             </Form.Group>
             <Form.Group controlId="userId" className="d-none">
             <Form.Control type="hidden" name="userId" value={formData.userId || ''} readOnly />
+            </Form.Group>
+            <Form.Group controlId="latitude">
+                <Form.Label>Latitude</Form.Label>
+                <Form.Control type="text" name="latitude" value={formData.coordinates.latitude || ''} readOnly />
+            </Form.Group>
+            <Form.Group controlId="longitude">
+                <Form.Label>Longitude</Form.Label>
+                <Form.Control type="text" name="longitude" value={formData.coordinates.longitude || ''} readOnly />
             </Form.Group>
             <Button variant="primary" type="submit" className="mt-3">
             Create Event

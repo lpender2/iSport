@@ -18,19 +18,38 @@ const EventSchema = new mongoose.Schema({
         type: String,
         required: [true, "An event's location is required!!!"]
     },
+    coordinates: {  
+        latitude: {
+            type: Number,
+            required: [true, "Latitude is required!!!"]
+        },
+        longitude: {
+            type: Number,
+            required: [true, "Longitude is required!!!"]
+        }
+    },
     userId: {
         type: String,
         required: [true, "A user ID is required!!!"]
     },
     messages: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Message'
+            text: {
+                type: String,
+                trim: true,
+                required: true
+            },
+            userFirstName: {
+                type: String,
+                trim: true,
+                required: true
+            }
         }
-        ]
+    ]
 }, { timestamps: true });
 
 const Event = mongoose.model("Event", EventSchema);
-module.exports = Event;   
+module.exports = Event;
+
 
 

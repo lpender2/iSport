@@ -8,12 +8,15 @@ import Cookies from "js-cookie";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreateEventPage from "./views/CreateEvent";
 import Layout from "./components/Layout";
+import ShowEvent from "./views/ShowEvent";
+import { LoadScript } from "@react-google-maps/api";
+import ProfilePage from "./views/ProfilePage";
 
 
 function App() {
   
   const [user, setUser] = useState({});
-
+  const libraries = ["places"];
   useEffect(() => {
     axios.get("http://localhost:8000/api/user")  
     .catch((err) => console.log(err));
@@ -23,20 +26,30 @@ function App() {
         setUser(parsedUserData);
       }
     }, []);
-  
+
   return (
     <Router>
       <div className="App">
-      <Layout user={user} setUser={setUser}>
+        <Layout user={user} setUser={setUser}>
           <Routes>
-            <Route path="/create-event" element={<CreateEventPage user={user} />} />  
+            <Route path="/create-event" element={
+              <LoadScript googleMapsApiKey="AIzaSyB_KDUnlMcEkhHyDIFkHsy8CgvMOTkbMgA" libraries={libraries}>
+                <CreateEventPage user={user} />
+              </LoadScript>
+            } />
+            <Route path="/events/:id" element={
+              <LoadScript googleMapsApiKey="AIzaSyB_KDUnlMcEkhHyDIFkHsy8CgvMOTkbMgA" libraries={libraries}>
+                <ShowEvent user={user} />
+              </LoadScript>
+            } />
             <Route path="/dashboard" element={<Homepage setUser={setUser} />} />
+            <Route path="/profile" element={<ProfilePage setUser={setUser} />} />
             <Route path="/register" element={<Register setUser={setUser} />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
             <Route path="/" element={<Login setUser={setUser} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </Layout>  
+        </Layout>
       </div>
     </Router>
   );

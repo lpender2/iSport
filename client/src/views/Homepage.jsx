@@ -7,6 +7,13 @@ import { useNavigate } from 'react-router-dom';
 const Homepage = () => {
     const [eventList, setEventList] = useState([]);
     const navigate = useNavigate();
+    const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+};
     useEffect(() => {
         const userToken = Cookies.get('userToken');
         if (!userToken) {
@@ -21,12 +28,11 @@ const Homepage = () => {
 
     return (
         <div>
-            {/* Main Content */}
             <Container className="mt-4">
                 <Row>
                     <Col md={8}>
                         <h2>Upcoming Pickup Games</h2>
-                        <Display eventList={eventList} setEventList={setEventList} />
+                        <Display eventList={eventList.events}/>
                     </Col>
                     <Col md={4}>
                         <h2>My Pickup Games</h2>
