@@ -118,6 +118,7 @@ const CreateEventPage = (props) => {
                         name="location" 
                         value={searchInput} 
                         onChange={handleSearchInputChange} 
+                        placeholder="Search for a location"
                     />
                 </StandaloneSearchBox>
             </Form.Group>
