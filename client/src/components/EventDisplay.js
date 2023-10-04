@@ -10,7 +10,7 @@ const Display = (props) => {
     const userData = Cookies.get('user');
     const parsedUserData = userData ? JSON.parse(userData) : null;
     const loggedInUserId = parsedUserData ? parsedUserData._id : null;
-    console.log('loggedInUserId:', loggedInUserId);
+    //console.log('loggedInUserId:', loggedInUserId);
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             year: 'numeric',
