@@ -43,7 +43,7 @@ function App() {
               </LoadScript>
             } />
             <Route path="/dashboard" element={<Homepage setUser={setUser} />} />
-            <Route path="/profile" element={<ProfilePage setUser={setUser} />} />
+            <Route path="/profile" element={<ProfilePage user={user} />} />
             <Route path="/register" element={<Register setUser={setUser} />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
             <Route path="/" element={<Login setUser={setUser} />} />
