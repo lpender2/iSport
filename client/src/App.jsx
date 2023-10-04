@@ -18,14 +18,20 @@ function App() {
   const [user, setUser] = useState({});
   const libraries = ["places"];
   useEffect(() => {
-    axios.get("http://localhost:8000/api/user")  
-    .catch((err) => console.log(err));
-    const userData = Cookies.get("user");
+    axios.get("http://localhost:8000/api/user")
+      .then(response => {
+          if (response.data) {
+              setUser(response.data);
+          }
+      })
+      .catch((err) => console.log(err));
+
+      const userData = Cookies.get("user");
       if (userData) {
-        const parsedUserData = JSON.parse(userData);
-        setUser(parsedUserData);
+          const parsedUserData = JSON.parse(userData);
+          setUser(parsedUserData);
       }
-    }, []);
+  }, []);
 
   return (
     <Router>
