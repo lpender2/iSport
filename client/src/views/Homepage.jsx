@@ -14,7 +14,7 @@ const Homepage = () => {
         } else {
             fetch('http://localhost:8000/api/events/')
                 .then(response => response.json())
-                .then(data => setEventList(data))
+                .then(data => setEventList(data.events))
                 .catch(error => console.log(error));
         }
     }, [navigate]);
@@ -25,11 +25,10 @@ const Homepage = () => {
                 <Row>
                     <Col md={8}>
                         <h2>Upcoming Pickup Games</h2>
-                        <Display eventList={eventList.events}/>
+                        <Display eventList={eventList} setEventList={setEventList}/>
                     </Col>
                     <Col md={4}>
                         <h2>My Pickup Games</h2>
-                        {/* List of My Sports */}
                         <Card className="mb-3">
                             <Card.Body>
                                 <Card.Title>Sport Name</Card.Title>
@@ -38,7 +37,6 @@ const Homepage = () => {
                                 </Card.Text>
                             </Card.Body>
                         </Card>
-                        {/* Repeat Card component for other sports */}
                     </Col>
                 </Row>
             </Container>

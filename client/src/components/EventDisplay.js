@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 const Display = (props) => {
-    const { eventList, setEventList } = props;
+    const {eventList, setEventList } = props;
     
     const userData = Cookies.get('user');
     const parsedUserData = userData ? JSON.parse(userData) : null;
@@ -36,17 +36,18 @@ const Display = (props) => {
         <div>
             {eventList.map((event, index) => (
                 <Card key={index} className="mb-3">
-                    <Card.Body>
-                        <Card.Title>{event.title}</Card.Title>
-                        <Card.Text>
-                            <strong>Date:</strong> {formatDate(event.date)} <br />
-                            <strong>Time:</strong> {formatTime(event.time)} <br />
-                            <strong>Location:</strong> {event.location} <br />
-                            {/* You can continue to add more fields as needed */}
-                        </Card.Text>
-                        <Link to={`/events/${event._id}`}>Go to Event Page!</Link>
+                    <Card.Body className="d-flex align-items-center justify-content-between">
+                        <div>
+                            <Card.Title>{event.title}</Card.Title>
+                            <Card.Text>
+                                <strong>Date:</strong> {formatDate(event.date)} <br />
+                                <strong>Time:</strong> {formatTime(event.time)} <br />
+                                <strong>Location:</strong> {event.location} <br />
+                            </Card.Text>
+                            <Link to={`/events/${event._id}`}>Go to Event Page!</Link>
+                        </div>
                         {event.userId === loggedInUserId && (
-                            <Button variant="danger" onClick={() => handleDelete(event._id.$oid)}>
+                            <Button variant="danger" onClick={() => handleDelete(event._id)}>
                                 Delete
                             </Button>
                         )}
@@ -57,17 +58,17 @@ const Display = (props) => {
     );
 
     function handleDelete(eventId) {
-        axios.delete(`/api/events/${eventId}`)
+        console.log('Deleting event with ID:', eventId);
+        axios.delete(`http://localhost:8000/api/events/${eventId}`)
             .then(response => {
                 console.log('Event deleted successfully:', response.data);
-                setEventList(prevEventList => prevEventList.filter(event => event._id.$oid !== eventId));
+                setEventList(prevEventList => prevEventList.filter(event => event._id !== eventId));
             })
             .catch(error => {
                 console.error('Error deleting event:', error);
             });
     }
-
-}
+};
 
 export default Display;
 

@@ -12,6 +12,7 @@ const EventController = {
             .catch((err) => res.status(400).json({ message: 'updateEvent has failed!', error: err }));
     },
     deleteEvent: (req, res) => {
+        console.log("deleteEvent called with ID:", req.params.id);
         Event.deleteOne({ _id: req.params.id })
             .then((result) => res.json({ result: result }))
             .catch((err) => res.status(400).json({ message: 'deleteEvent has failed!', error: err }));
