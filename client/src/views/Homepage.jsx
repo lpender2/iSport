@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col} from 'react-bootstrap';
 import Display from '../components/EventDisplay';
+import UserDisplay from '../components/UserDisplay';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,18 +26,11 @@ const Homepage = () => {
                 <Row>
                     <Col md={8}>
                         <h2>Upcoming Pickup Games</h2>
-                        <Display eventList={eventList} setEventList={setEventList}/>
+                        <Display eventList={eventList}/>
                     </Col>
                     <Col md={4}>
                         <h2>My Pickup Games</h2>
-                        <Card className="mb-3">
-                            <Card.Body>
-                                <Card.Title>Sport Name</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk of the card's content.
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
+                        <UserDisplay eventList={eventList} setEventList={setEventList}/>
                     </Col>
                 </Row>
             </Container>

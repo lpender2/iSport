@@ -15,7 +15,7 @@ const Layout = ({ children, user, setUser }) => {
                 <Nav className="me-auto">
                 <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                 <Nav.Link href="/profile">Profile</Nav.Link>
-                <Nav.Link href="/create-event">Create Event</Nav.Link>
+                <Nav.Link href="/create-event">Create Pickup Game</Nav.Link>
                 </Nav>
                 <LogoutButton setUser={setUser} />
             </Navbar.Collapse>
