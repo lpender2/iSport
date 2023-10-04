@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import Display from '../components/Display';
+import Display from '../components/EventDisplay';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
     const [eventList, setEventList] = useState([]);
     const navigate = useNavigate();
-    const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-};
     useEffect(() => {
         const userToken = Cookies.get('userToken');
         if (!userToken) {
