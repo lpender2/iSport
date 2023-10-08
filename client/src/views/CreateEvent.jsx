@@ -5,15 +5,20 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { StandaloneSearchBox } from '@react-google-maps/api';
 
-const CreateEventPage = (props) => {
-    const { user } = props;
+const CreateEventPage = () => {
     const navigate = useNavigate();
+
+    const userData = Cookies.get('user');
+    const parsedUserData = userData ? JSON.parse(userData) : null;
+    const loggedInUserId = parsedUserData ? parsedUserData._id : null;
+    console.log('loggedInUserId:', loggedInUserId);
+
     const [formData, setFormData] = useState({
         title: '',
         date: '',
         time: '',
         location: '',
-        userId: user?._id || '',
+        userId: loggedInUserId,
         coordinates: {
             latitude: null,
             longitude: null
@@ -89,6 +94,12 @@ const CreateEventPage = (props) => {
         setError(error.response?.data?.message || error.message);
         }
     };
+
+    useEffect(() => {
+        if (loggedInUserId) {
+            setFormData(prevState => ({ ...prevState, loggedInUserId}));
+        }
+    }, [loggedInUserId]);
 
     return (
         <Container className="mt-5">
