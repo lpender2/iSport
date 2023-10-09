@@ -40,9 +40,9 @@ const ProfilePage = ({ user }) => {
                 <h2 className="mt-3">{parsedUserData.firstName} {parsedUserData.lastName}</h2> {/* User's Name */}
                 <p>Email: {parsedUserData.email}</p> {/* Email */}
                 <div className="d-flex justify-content-center mt-3 mb-3"> {/* Added this div to center the button */}
-                    <Button variant="primary" onClick={handleEditProfile} className="mr-3">
+                    {/* <Button variant="primary" onClick={handleEditProfile} className="mr-3">
                         Edit Profile
-                    </Button>
+                    </Button> */}
                 </div>
                 <LogoutButton user={parsedUserData} />
             </div>
