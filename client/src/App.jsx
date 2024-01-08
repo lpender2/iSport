@@ -39,12 +39,12 @@ function App() {
         <Layout user={user} setUser={setUser}>
           <Routes>
             <Route path="/create-event" element={
-              <LoadScript googleMapsApiKey="AIzaSyB_KDUnlMcEkhHyDIFkHsy8CgvMOTkbMgA" libraries={libraries}>
+              <LoadScript googleMapsApiKey="Your API Key Here" libraries={libraries}>
                 <CreateEventPage user={user} />
               </LoadScript>
             } />
             <Route path="/events/:id" element={
-              <LoadScript googleMapsApiKey="AIzaSyB_KDUnlMcEkhHyDIFkHsy8CgvMOTkbMgA" libraries={libraries}>
+              <LoadScript googleMapsApiKey="Your API Key Here" libraries={libraries}>
                 <ShowEvent user={user} />
               </LoadScript>
             } />
